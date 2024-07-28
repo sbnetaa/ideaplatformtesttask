@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -117,8 +118,12 @@ public class Main {
 		return ticketsWithRequiredPath;
 	}
 	
-	public static double findMedian(List<TicketRequest> inputList) {
-		return (inputList.get((int)Math.ceil(inputList.size() / 2.0)).getPrice() + inputList.get((int)Math.floor(inputList.size() / 2)).getPrice()) / 2;
+	public static double findMedian(List<TicketRequest> inputList) {	
+		inputList.sort(Comparator.comparingInt(TicketRequest::getPrice));
+		if (inputList.size() % 2 == 0)
+			return (inputList.get((int)Math.ceil(inputList.size() / 2.0 - 1)).getPrice() + inputList.get((int)Math.floor(inputList.size() / 2)).getPrice()) / 2;
+		else
+			return (double) inputList.get((int) (inputList.size() / 2)).getPrice();
 	}
 	
 	
